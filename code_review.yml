@@ -1,0 +1,28 @@
+name: AI Code Review
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: pip install fastapi openai requests astroid
+
+      - name: Run AI Code Review
+        run: |
+          curl -X POST "http://localhost:8000/analyze/" -H "Content-Type: application/json" -d '{"code": "def add(x, y): return x+y"}'
+
+ 
